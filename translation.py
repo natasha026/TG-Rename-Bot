@@ -3,7 +3,7 @@ class Translation(object):
 
 <b>I'm a File Renamer Bot with permanent Thumbnail support!</b>
 
-<b>Send me any Telegram file and reply to that file to /rename New Name.mkv</b>
+<b>Send me any Telegram file and reply to that file with /rename New Name.mkv</b>
 
 Use /help for more details."""
     RENAME_403_ERR = "Sorry. You are not permitted to rename this file."
