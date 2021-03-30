@@ -10,6 +10,12 @@ logger = logging.getLogger(__name__)
 
 import os
 import sqlite3
+from pyrogram import (
+    Client,
+    Filters,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton
+)
 
 # the secret configuration specific things
 if bool(os.environ.get("WEBHOOK", False)):
@@ -49,7 +55,18 @@ async def start(bot, update):
     TRChatBase(update.from_user.id, update.text, "/start")
     await bot.send_message(
         chat_id=update.chat.id,
-        text=Translation.START_TEXT,
+        text=Translation.START_TEXT.format(update.from_user.first_name),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton('🛸 Channel', url='https://t.me/Wandabetaxbot'),
+                    InlineKeyboardButton('📞 Contact', url='https://t.me/t_r_oy')
+                ],
+                [
+                    
+                ]
+            ]
+        ),
         reply_to_message_id=update.message_id
     )
 
